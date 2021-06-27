@@ -1,0 +1,26 @@
+[
+  {
+    "id": "GoodsPlan.Core",
+    "isBundledWithHost": true
+  },
+  {
+    "id": "GoodsPlan.Infrastructure",
+    "isBundledWithHost": true
+  },
+  {
+    "id": "GoodsPlan.EmailSender",
+    "isBundledWithHost": true
+  },
+  {
+    "id": "GoodsPlan.Products",
+    "isBundledWithHost": true
+  },
+  {
+    "id": "GoodsPlan.Warehouses",
+    "isBundledWithHost": true
+  },
+  {
+    "id": "GoodsPlan.Suppliers",
+    "isBundledWithHost": true
+  }
+]
