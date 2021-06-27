@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace GoodsPlan.Core.Areas.Controllers
 {
-    [Route("account")]
     public class AccountController : Controller
     {
         private readonly IRepository<User> _userRepository;
@@ -30,14 +29,14 @@ namespace GoodsPlan.Core.Areas.Controllers
             _emailSender = emailSender;
         }
 
-        [HttpGet]
+        [HttpGet("registration")]
         public IActionResult Registration()
         {
             return View();
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost("register")]
+        [HttpPost("registration")]
         public async Task<IActionResult> Registration(RegisterForm model)
         {
             if (!ModelState.IsValid)
@@ -81,7 +80,7 @@ namespace GoodsPlan.Core.Areas.Controllers
             await _emailSender.SendAsync(registrationEmailMessage);
         }
 
-        [HttpGet]
+        [HttpGet("login")]
         public IActionResult Login()
         {
             return View();

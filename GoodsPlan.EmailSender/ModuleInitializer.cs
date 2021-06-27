@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
 using GoodsPlan.EmailSender.Services;
-using GoodsPlan.EmailSender;
 using GoodsPlan.Infrastructure.Modules;
 
-namespace CMSever.Module.Vendors
+namespace GoodsPlan.EmailSender
 {
     public class ModuleInitializer : IModuleInitializer
     {

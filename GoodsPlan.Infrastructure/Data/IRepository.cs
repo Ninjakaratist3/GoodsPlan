@@ -10,8 +10,8 @@ namespace GoodsPlan.Infrastructure.Data
         T Get(long id);
         void Add(T entity);
         void AddRange(IEnumerable<T> entities);
-        void Remove(T entity);
         void Update(T entity);
+        void Delete(long id);
         IQueryable<T> Query();
         void SaveChanges();
         Task SaveChangesAsync();

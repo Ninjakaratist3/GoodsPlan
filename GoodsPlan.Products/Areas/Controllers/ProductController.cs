@@ -1,22 +1,38 @@
-﻿using GoodsPlan.Products.Areas.ViewModels.Product;
-using Microsoft.AspNetCore.Http;
+﻿using GoodsPlan.Infrastructure.Data;
+using GoodsPlan.Products.Areas.ViewModels.Product;
+using GoodsPlan.Products.Models;
+using GoodsPlan.Products.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace GoodsPlan.Products.Areas.Controllers
 {
     [Route("products")]
     public class ProductController : Controller
     {
+        private readonly IRepository<Product> _productRepository;
+        private readonly IProductService _productService;
+
+        public ProductController(IRepository<Product> productRepository, IProductService productService)
+        {
+            _productRepository = productRepository;
+            _productService = productService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var products = _productRepository.Query().ToList();
+
+            return View(products);
         }
 
         [HttpGet("{id}")]
         public IActionResult ProductDetails(long id)
         {
-            return View();
+            var product = _productRepository.Query().Where(p => p.Id == id).FirstOrDefault();
+
+            return View(product);
         }
 
         [HttpGet("create")]
@@ -29,14 +45,16 @@ namespace GoodsPlan.Products.Areas.Controllers
         [HttpPost("create")]
         public IActionResult Create(ProductForm model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+
+            var product = _productService.ConvertProductFormToProduct(model);
+
+            _productRepository.Add(product);
+
+            return Ok();
         }
 
         [HttpGet("edit")]
@@ -49,28 +67,30 @@ namespace GoodsPlan.Products.Areas.Controllers
         [HttpPut("edit")]
         public IActionResult Update(long id, ProductForm model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+
+            var product = _productRepository.Get(id);
+
+            _productService.UpdateProduct(product, model);
+
+            return Ok();
         }
 
         [ValidateAntiForgeryToken]
         [HttpDelete("delete")]
         public IActionResult Delete(long id)
         {
-            try
+            if (id <= 0)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+
+            _productRepository.Delete(id);
+
+            return Ok();
         }
     }
 }

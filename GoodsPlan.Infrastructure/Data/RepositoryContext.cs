@@ -9,10 +9,7 @@ namespace GoodsPlan.Infrastructure.Data
 {
     public class RepositoryContext : DbContext
     {
-        public RepositoryContext(DbContextOptions options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        public RepositoryContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

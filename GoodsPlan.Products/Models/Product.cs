@@ -1,6 +1,8 @@
-﻿namespace GoodsPlan.Products.Areas.ViewModels.Product
+﻿using GoodsPlan.Infrastructure.Models.Base;
+
+namespace GoodsPlan.Products.Models
 {
-    public class ProductForm
+    public class Product : EntityBase
     {
         public string Name { get; set; }
 
