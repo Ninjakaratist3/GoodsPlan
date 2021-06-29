@@ -1,0 +1,22 @@
+﻿@model List<SupplierViewModel> 
+
+<div>
+    <div>
+        <a href="/suppliers/create">Добавить</a>
+    </div>
+    <div>
+        <div>
+            Товары:
+        </div>
+        @foreach (var supplier in Model)
+        {
+            <div class="d-flex p-3">
+                <a href="/suppliers/@supplier.Id">
+                    @supplier.Name
+                </a>
+                <a href="/suppliers/edit/@supplier.Id">Редактировать</a>
+                <form method="post" asp-controller="Supplier" asp-action="Delete" asp-route-id="@supplier.Id"><button type="submit">Удалить</button></form>
+            </div>
+        }
+    </div>
+</div>

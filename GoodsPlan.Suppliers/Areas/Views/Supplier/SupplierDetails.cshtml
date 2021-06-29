@@ -1,0 +1,32 @@
+﻿@model SupplierViewModel
+
+<div>
+    <div>
+        @Model.Name
+    </div>
+    <div>
+        @Model.Phone
+    </div>
+    <div>
+        @Model.Address
+    </div>    
+    <div>
+        @Model.Email
+    </div>    
+    <div>
+        @Model.User.Name
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-12 col-form-label px-0">Товары</label>
+
+        <div class="col-md-12 px-0">
+
+            @foreach (var product in Model.Products)
+            {
+                <p>@product.Name</p>
+            }
+
+        </div>
+    </div>
+</div>

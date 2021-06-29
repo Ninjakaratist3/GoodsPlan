@@ -1,8 +1,12 @@
-﻿using GoodsPlan.Infrastructure.Data;
+﻿using GoodsPlan.Core.Models;
+using GoodsPlan.Infrastructure.Data;
 using GoodsPlan.Products.Areas.ViewModels.Product;
 using GoodsPlan.Products.Models;
 using GoodsPlan.Products.Services;
+using GoodsPlan.Suppliers.Models;
+using GoodsPlan.Warehouses.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace GoodsPlan.Products.Areas.Controllers
@@ -11,18 +15,41 @@ namespace GoodsPlan.Products.Areas.Controllers
     public class ProductController : Controller
     {
         private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Warehouse> _warehouseRepository;
+        private readonly IRepository<Supplier> _supplierRepository;
+        private readonly IRepository<SupplierProduct> _supplierProductRepository;
         private readonly IProductService _productService;
 
-        public ProductController(IRepository<Product> productRepository, IProductService productService)
+        public ProductController(IRepository<Product> productRepository,
+            IRepository<User> userRepository,
+            IRepository<Warehouse> warehouseRepository,
+            IRepository<Supplier> supplierRepository,
+            IRepository<SupplierProduct> supplierProductRepository,
+            IProductService productService)
         {
             _productRepository = productRepository;
+            _userRepository = userRepository;
+            _warehouseRepository = warehouseRepository;
+            _supplierRepository = supplierRepository;
+            _supplierProductRepository = supplierProductRepository;
             _productService = productService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var products = _productRepository.Query().ToList();
+            var products = _productRepository.Query()
+                .Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Code = p.Code,
+                    MeasureUnit = p.MeasureUnit,
+                    Quantity = p.Quantity,
+                    Price = p.Price
+                })
+                .ToList();
 
             return View(products);
         }
@@ -30,7 +57,23 @@ namespace GoodsPlan.Products.Areas.Controllers
         [HttpGet("{id}")]
         public IActionResult ProductDetails(long id)
         {
-            var product = _productRepository.Query().Where(p => p.Id == id).FirstOrDefault();
+            var product = _productRepository.Query()
+                .Where(p => p.Id == id)
+                .Select(p => new ProductViewModel 
+                {
+                    Name = p.Name,
+                    Code = p.Code,
+                    MeasureUnit = p.MeasureUnit,
+                    Weight = p.Weight,
+                    Volume = p.Volume,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Warehouse = p.Warehouse,
+                    Supplier = p.Supplier,
+                    User = _userRepository.Get(p.UserId)
+                })
+                .FirstOrDefault();
 
             return View(product);
         }
@@ -38,7 +81,13 @@ namespace GoodsPlan.Products.Areas.Controllers
         [HttpGet("create")]
         public IActionResult Create()
         {
-            return View();
+            var model = new ProductForm() 
+            { 
+                Suppliers = _supplierRepository.Query().ToList(),
+                Warehouses = _warehouseRepository.Query().ToList()
+            };
+
+            return View(model);
         }
 
         [ValidateAntiForgeryToken]
@@ -52,19 +101,66 @@ namespace GoodsPlan.Products.Areas.Controllers
 
             var product = _productService.ConvertProductFormToProduct(model);
 
-            _productRepository.Add(product);
+            var userEmail = HttpContext.User.Identity.Name;
 
-            return Ok();
+            if (userEmail == null)
+            {
+                return Redirect("/login");
+            }
+
+            product.UserId = _userRepository.Query()
+                .Where(p => p.Email == userEmail)
+                .FirstOrDefault().Id;
+
+            _productRepository.Add(product);
+            _productRepository.SaveChanges();
+
+            return Redirect("/products");
         }
 
-        [HttpGet("edit")]
+        private void AddProductToSupplier(Product product)
+        {
+            var supplierProduct = new SupplierProduct()
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price
+            };
+
+            product.Supplier.Products.Add(supplierProduct);
+
+            _supplierProductRepository.Add(supplierProduct);
+            _supplierProductRepository.SaveChanges();
+            _supplierRepository.SaveChanges();
+        }
+
+        [HttpGet("edit/{id}")]
         public IActionResult Update(long id)
         {
-            return View();
+            var product = _productRepository.Query()
+                .Where(p => p.Id == id)
+                .Select(p => new ProductForm
+                {
+                    Name = p.Name,
+                    Code = p.Code,
+                    MeasureUnit = p.MeasureUnit,
+                    Weight = p.Weight,
+                    Volume = p.Volume,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    Description = p.Description,
+                    WarehouseId = p.Warehouse.Id,
+                    SupplierId = p.Supplier.Id,
+                    Suppliers = _supplierRepository.Query().ToList(),
+                    Warehouses = _warehouseRepository.Query().ToList()
+                })
+                .FirstOrDefault();
+
+            return View(product);
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPut("edit")]
+        [HttpPost("edit/{id}")]
         public IActionResult Update(long id, ProductForm model)
         {
             if (!ModelState.IsValid)
@@ -75,12 +171,12 @@ namespace GoodsPlan.Products.Areas.Controllers
             var product = _productRepository.Get(id);
 
             _productService.UpdateProduct(product, model);
+            _productRepository.SaveChanges();
 
-            return Ok();
+            return Redirect("/products");
         }
 
-        [ValidateAntiForgeryToken]
-        [HttpDelete("delete")]
+        [HttpPost("delete/{id}")]
         public IActionResult Delete(long id)
         {
             if (id <= 0)
@@ -89,8 +185,9 @@ namespace GoodsPlan.Products.Areas.Controllers
             }
 
             _productRepository.Delete(id);
+            _productRepository.SaveChanges();
 
-            return Ok();
+            return Redirect("/products");
         }
     }
 }

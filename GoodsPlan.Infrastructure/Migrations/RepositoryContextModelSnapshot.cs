@@ -26,6 +26,9 @@ namespace GoodsPlan.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -38,65 +41,94 @@ namespace GoodsPlan.Infrastructure.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("RoleId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("GoodsPlan.Core.Models.UserRole", b =>
+            modelBuilder.Entity("GoodsPlan.Products.Models.Product", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MeasureUnit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("SupplierId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long?>("WarehouseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole");
+                    b.HasIndex("SupplierId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("GoodsPlan.EmailSender.Models.SmtpConfiguration", b =>
+            modelBuilder.Entity("GoodsPlan.Suppliers.Models.Supplier", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Host")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Port")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("UseSsl")
-                        .HasColumnType("bit");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("SmtpConfiguration");
+                    b.ToTable("Supplier");
                 });
 
-            modelBuilder.Entity("GoodsPlan.Products.Models.Product", b =>
+            modelBuilder.Entity("GoodsPlan.Suppliers.Models.SupplierProduct", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,25 +144,71 @@ namespace GoodsPlan.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Sku")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("SupplierId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("SupplierProduct");
                 });
 
-            modelBuilder.Entity("GoodsPlan.Core.Models.User", b =>
+            modelBuilder.Entity("GoodsPlan.Warehouses.Models.Warehouse", b =>
                 {
-                    b.HasOne("GoodsPlan.Core.Models.UserRole", "Role")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SizeInCubicMeters")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouse");
+                });
+
+            modelBuilder.Entity("GoodsPlan.Products.Models.Product", b =>
+                {
+                    b.HasOne("GoodsPlan.Suppliers.Models.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Role");
+                    b.HasOne("GoodsPlan.Warehouses.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Supplier");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("GoodsPlan.Suppliers.Models.SupplierProduct", b =>
+                {
+                    b.HasOne("GoodsPlan.Suppliers.Models.Supplier", null)
+                        .WithMany("Products")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("GoodsPlan.Suppliers.Models.Supplier", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

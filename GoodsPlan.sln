@@ -7,15 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan", "GoodsPlan\Good
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.Core", "GoodsPlan.Core\GoodsPlan.Core.csproj", "{0AFBFB09-0385-425C-892E-43BB0F7FE751}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.EmailSender", "GoodsPlan.EmailSender\GoodsPlan.EmailSender.csproj", "{9CE39070-C7B7-43B2-BEB6-4B774E7B490D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.Infrastructure", "GoodsPlan.Infrastructure\GoodsPlan.Infrastructure.csproj", "{1D4AB043-B93A-41B4-8F75-FACFD6F21C61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.Warehouses", "GoodsPlan.Warehouses\GoodsPlan.Warehouses.csproj", "{5ADEBA39-A799-4FDC-B60A-087061179183}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.Suppliers", "GoodsPlan.Suppliers\GoodsPlan.Suppliers.csproj", "{51DD36B0-A173-4F9F-8061-E617F4F3F1BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsPlan.Products", "GoodsPlan.Products\GoodsPlan.Products.csproj", "{02F7407D-9148-410D-B64B-684A99E88282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsPlan.Products", "GoodsPlan.Products\GoodsPlan.Products.csproj", "{02F7407D-9148-410D-B64B-684A99E88282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{0AFBFB09-0385-425C-892E-43BB0F7FE751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AFBFB09-0385-425C-892E-43BB0F7FE751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AFBFB09-0385-425C-892E-43BB0F7FE751}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CE39070-C7B7-43B2-BEB6-4B774E7B490D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CE39070-C7B7-43B2-BEB6-4B774E7B490D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CE39070-C7B7-43B2-BEB6-4B774E7B490D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CE39070-C7B7-43B2-BEB6-4B774E7B490D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D4AB043-B93A-41B4-8F75-FACFD6F21C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D4AB043-B93A-41B4-8F75-FACFD6F21C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D4AB043-B93A-41B4-8F75-FACFD6F21C61}.Release|Any CPU.ActiveCfg = Release|Any CPU

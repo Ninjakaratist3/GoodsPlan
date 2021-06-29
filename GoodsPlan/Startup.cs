@@ -47,8 +47,8 @@ namespace GoodsPlan
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/account/login");
-                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/account/login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/login");
                 });
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));

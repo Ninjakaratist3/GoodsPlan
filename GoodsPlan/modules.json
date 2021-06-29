@@ -8,10 +8,6 @@
     "isBundledWithHost": true
   },
   {
-    "id": "GoodsPlan.EmailSender",
-    "isBundledWithHost": true
-  },
-  {
     "id": "GoodsPlan.Products",
     "isBundledWithHost": true
   },

@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoodsPlan.Core\GoodsPlan.Core.csproj" />
-    <ProjectReference Include="..\GoodsPlan.EmailSender\GoodsPlan.EmailSender.csproj" />
     <ProjectReference Include="..\GoodsPlan.Infrastructure\GoodsPlan.Infrastructure.csproj" />
     <ProjectReference Include="..\GoodsPlan.Products\GoodsPlan.Products.csproj" />
     <ProjectReference Include="..\GoodsPlan.Suppliers\GoodsPlan.Suppliers.csproj" />

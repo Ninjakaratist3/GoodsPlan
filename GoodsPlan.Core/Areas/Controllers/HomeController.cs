@@ -7,7 +7,6 @@ namespace GoodsPlan.Core.Areas.Controllers
         public IActionResult Index()
         {
             return View();
-            //return View("/Areas/Views/Home/Index.cshtml");
         }
     }
 }

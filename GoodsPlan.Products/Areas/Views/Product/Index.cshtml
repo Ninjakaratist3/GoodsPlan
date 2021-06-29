@@ -1,3 +1,22 @@
-﻿<div>
-    Продуктсы
+﻿@model List<ProductViewModel> 
+
+<div>
+    <div>
+        <a href="products/create">Добавить</a>
+    </div>
+    <div>
+        <div>
+            Товары:
+        </div>
+        @foreach (var product in Model)
+        {
+            <div class="d-flex p-3">
+                <a href="/products/@product.Id">
+                    @product.Name
+                </a>
+                <a href="/products/edit/@product.Id">Редактировать</a>
+                <form method="post" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><button type="submit">Удалить</button></form>
+            </div>
+        }
+    </div>
 </div>

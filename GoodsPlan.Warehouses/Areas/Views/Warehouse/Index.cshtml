@@ -1,0 +1,22 @@
+﻿@model List<WarehouseViewModel>
+
+<div>
+    <div>
+        <a href="/warehouses/create">Добавить</a>
+    </div>
+    <div>
+        <div>
+            Товары:
+        </div>
+        @foreach (var warehouse in Model)
+        {
+            <div class="d-flex p-3">
+                <a href="/warehouses/@warehouse.Id">
+                    @warehouse.Name
+                </a>
+                <a href="/warehouses/edit/@warehouse.Id">Редактировать</a>
+                <form method="post" asp-controller="Warehouse" asp-action="Delete" asp-route-id="@warehouse.Id"><button type="submit">Удалить</button></form>
+            </div>
+        }
+    </div>
+</div>

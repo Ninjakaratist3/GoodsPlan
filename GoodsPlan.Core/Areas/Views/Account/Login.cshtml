@@ -1,4 +1,26 @@
-﻿<div>
-    Вход
+﻿@model LoginForm
+
+<div class="d-flex justify-content-center">
+    <div style="max-width: 500px;">
+        <h3>Вход</h3>
+        <form id="registration-form" asp-controller="Account" asp-action="Login">
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-12 col-form-label px-0">Почта</label>
+                <div class="col-md-12 px-0">
+                    <input asp-for="Email" required class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="col-md-12 col-form-label px-0">Пароль</label>
+                <div class="col-md-12 px-0">
+                    <input asp-for="Password" required class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <button class="col-md-12" type="submit">Войти</button>
+        </form>
+        <a href="/registration">Регистрация</a>
+    </div>
+    
 </div>
-<a href="/registration">Регистрация</a>

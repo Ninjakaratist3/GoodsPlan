@@ -1,8 +1,6 @@
-﻿using GoodsPlan.Core.Models;
-using GoodsPlan.EmailSender;
-using GoodsPlan.EmailSender.TemplateModels;
+﻿using GoodsPlan.Core.Areas.ViewModels.Account;
+using GoodsPlan.Core.Models;
 using GoodsPlan.Infrastructure.Data;
-using Medicine.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -17,16 +15,10 @@ namespace GoodsPlan.Core.Areas.Controllers
     public class AccountController : Controller
     {
         private readonly IRepository<User> _userRepository;
-        private readonly IRepository<UserRole> _userRoleRepository;
-        private readonly IEmailSender _emailSender;
 
-        public AccountController(IRepository<User> userRepository,
-            IRepository<UserRole> userRoleRepository,
-            IEmailSender emailSender)
+        public AccountController(IRepository<User> userRepository)
         {
             _userRepository = userRepository;
-            _userRoleRepository = userRoleRepository;
-            _emailSender = emailSender;
         }
 
         [HttpGet("registration")]
@@ -37,47 +29,28 @@ namespace GoodsPlan.Core.Areas.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("registration")]
-        public async Task<IActionResult> Registration(RegisterForm model)
+        public async Task<IActionResult> Registration(RegistrationForm model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View();
             }
 
             User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user != null)
             {
-                return BadRequest();
+                return View();
             }
 
             user = model.ConvertToUser();
 
-            UserRole userRole = await _userRoleRepository.Query().FirstOrDefaultAsync(r => r.Name == "user");
-            if (userRole != null)
-            {
-                user.Role = userRole;
-            }
-
             _userRepository.Add(user);
             await _userRepository.SaveChangesAsync();
 
-            SendRegistrationEmailMessage(user);
-
             await Authenticate(user);
 
-            return Ok();
-        }
-
-        private async void SendRegistrationEmailMessage(User user)
-        {
-            var registrationEmailMessage = new RegistrationTemplateModel()
-            {
-                UserName = user.Name,
-                UserEmail = user.Email,
-                Subject = "Регистрация"
-            };
-            await _emailSender.SendAsync(registrationEmailMessage);
+            return Redirect("/user");
         }
 
         [HttpGet("login")]
@@ -90,23 +63,22 @@ namespace GoodsPlan.Core.Areas.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginForm model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View();
             }
 
             User user = await _userRepository.Query()
-                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user != null && CheckedPassword(user, model.Password))
             {
                 await Authenticate(user);
-                return Ok();
+                return Redirect("/user");
             }
             else
             {
-                return BadRequest();
+                return View();
             }
         }
 
@@ -121,7 +93,7 @@ namespace GoodsPlan.Core.Areas.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "UserCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
@@ -134,7 +106,7 @@ namespace GoodsPlan.Core.Areas.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Ok();
+            return Redirect("~/");
         }
     }
 }

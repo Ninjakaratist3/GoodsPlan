@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GoodsPlan.EmailSender\GoodsPlan.EmailSender.csproj" />
     <ProjectReference Include="..\GoodsPlan.Infrastructure\GoodsPlan.Infrastructure.csproj" />
   </ItemGroup>
 
