@@ -9,5 +9,7 @@ namespace GoodsPlan.Suppliers.Models
         public string Description { get; set; }
 
         public decimal Price { get; set; }
+
+        public long ProductId { get; set; }
     }
 }

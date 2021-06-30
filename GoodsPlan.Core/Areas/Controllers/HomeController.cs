@@ -6,7 +6,7 @@ namespace GoodsPlan.Core.Areas.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/login");
         }
     }
 }

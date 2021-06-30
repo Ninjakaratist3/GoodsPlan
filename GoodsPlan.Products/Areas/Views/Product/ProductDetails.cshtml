@@ -2,36 +2,42 @@
 
 <div>
     <div>
-        @Model.Name
+        <a href="/products"><i class="arrow left"></i></a>
     </div>
-    <div>
-        @Model.Description
-    </div>
-    <div>
-        @Model.Code
-    </div>
-    <div>
-        @Model.MeasureUnit
-    </div>
-    <div>
-        @Model.Weight
-    </div>
-    <div>
-        @Model.Volume
-    </div>
-    <div>
-        @Model.Quantity
-    </div>
-    <div>
-        @Model.Supplier.Name
-    </div>
-    <div>
-        @Model.Price
-    </div>
-    <div>
-        @Model.Warehouse.Name
-    </div>
-    <div>
-        @Model.User.Name
+    <div class="d-flex pt-3 ">
+        <div class="row">
+            <div class="col-12 pb-3" style="font-size: 28px;">
+                @Model.Name
+            </div>
+            <div class="col-6">
+                <div>
+                    <b>Код: </b>@Model.Code
+                </div>
+                <div>
+                    <b>Описание: </b>@Model.Description
+                </div>
+                <div>
+                    <b>Количество: </b>@Model.Quantity @Model.MeasureUnit
+                </div>
+            </div>
+            <div class="col-6">
+                <div>
+                    <b>Вес: </b>@Model.Weight
+                </div>
+                <div>
+                    <b>Объем: </b>@Model.Volume
+                </div>
+                <div>
+                    <b>Цена: </b>@Model.Price
+                </div>
+                <div>
+                    <b>Поставщик: </b>@Model.Supplier.Name
+                </div>
+                <div>
+                    <b>Склад: </b>@Model.Warehouse.Name
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>

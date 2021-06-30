@@ -1,6 +1,7 @@
 ﻿using GoodsPlan.Suppliers.Models;
 using GoodsPlan.Warehouses.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GoodsPlan.Products.Areas.ViewModels.Product
 {

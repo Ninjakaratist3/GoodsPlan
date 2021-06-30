@@ -1,8 +1,8 @@
 ﻿@model LoginForm
 
-<div class="d-flex justify-content-center">
-    <div style="max-width: 500px;">
-        <h3>Вход</h3>
+<div class="d-flex justify-content-center pt-5">
+    <div style="max-width: 600px;">
+        <h3 class="text-center">Вход</h3>
         <form id="registration-form" asp-controller="Account" asp-action="Login">
             <div class="form-group">
                 <label asp-for="Email" class="col-md-12 col-form-label px-0">Почта</label>
@@ -18,9 +18,9 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
             </div>
-            <button class="col-md-12" type="submit">Войти</button>
+            <button class="col-md-12 button" type="submit">Войти</button>
         </form>
-        <a href="/registration">Регистрация</a>
+        <a href="/registration" class="pt-2 d-inline-block">Регистрация</a>
     </div>
     
 </div>

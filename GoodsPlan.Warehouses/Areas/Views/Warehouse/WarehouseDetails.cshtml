@@ -2,18 +2,29 @@
 
 <div>
     <div>
-        @Model.Name
+        <a href="/warehouses"><i class="arrow left"></i></a>
     </div>
-    <div>
-        @Model.Phone
-    </div>
-    <div>
-        @Model.Address
-    </div>    
-    <div>
-        @Model.SizeInCubicMeters
-    </div>    
-    <div>
-        @Model.User.Name
+    <div class="d-flex pt-3">
+        <div class="row">
+            <div class="col-12" style="font-size: 28px;">
+                @Model.Name
+            </div>
+            <div class="col-12 pt-3">
+                <div>
+                    <b>Телефон: </b>@Model.Phone
+                </div>
+            </div>
+            <div class="col-12 pt-3">
+                <div>
+                    <b>Адрес: </b>@Model.Address
+                </div>
+            </div>
+            <div class="col-12 pt-3">
+                <div>
+                    <b>Размер: </b>@Model.SizeInCubicMeters м<sup>3</sup>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

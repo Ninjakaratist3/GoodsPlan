@@ -2,31 +2,29 @@
 
 <div>
     <div>
-        @Model.Name
+        <a href="/suppliers"><i class="arrow left"></i></a>
     </div>
-    <div>
-        @Model.Phone
-    </div>
-    <div>
-        @Model.Address
-    </div>    
-    <div>
-        @Model.Email
-    </div>    
-    <div>
-        @Model.User.Name
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-12 col-form-label px-0">Товары</label>
-
-        <div class="col-md-12 px-0">
-
-            @foreach (var product in Model.Products)
-            {
-                <p>@product.Name</p>
-            }
-
+    <div class="d-flex pt-3">
+        <div class="row">
+            <div class="col-12" style="font-size: 28px;">
+                @Model.Name
+            </div>
+            <div class="col-12 pt-3">
+                <div>
+                    <b>Телефон: </b>@Model.Phone
+                </div>
+                <div>
+                    <b>Товары</b>
+                        @foreach (var product in Model.Products)
+                        {
+                            <p class="section-list-item">
+                                <a href="/products/@product.Id">@product.Name</a>
+                            </p>
+                            
+                        }
+                </div>
+            </div>
         </div>
+
     </div>
 </div>

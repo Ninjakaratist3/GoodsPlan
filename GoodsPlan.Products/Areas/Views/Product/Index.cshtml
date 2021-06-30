@@ -1,21 +1,29 @@
 ﻿@model List<ProductViewModel> 
 
 <div>
-    <div>
-        <a href="products/create">Добавить</a>
+    <div class="d-flex justify-content-between pb-2">
+        <div>
+            <a href="/user"><i class="arrow left"></i></a>
+        </div>
+        <div>
+            <a class="button button-secondary" href="products/create">Добавить</a>
+        </div>
     </div>
     <div>
-        <div>
-            Товары:
+        <div class="pb-2">
+            <b>Товары:</b>
         </div>
         @foreach (var product in Model)
         {
-            <div class="d-flex p-3">
+            <div class="d-flex p-2 justify-content-between section-list-item">
                 <a href="/products/@product.Id">
                     @product.Name
                 </a>
-                <a href="/products/edit/@product.Id">Редактировать</a>
-                <form method="post" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><button type="submit">Удалить</button></form>
+                <div class="d-flex">
+                    <a class="button py-1 d-flex justify-self-end mr-2" href="/products/edit/@product.Id">Редактировать</a>
+                    <form method="post" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><button class="button button-warning py-1" type="submit">Удалить</button></form>
+                </div>
+                
             </div>
         }
     </div>

@@ -1,8 +1,8 @@
 ﻿@model SupplierForm
 
-<div class="d-flex">
-    <div style="max-width: 700px;">
-        <h3>Создание товара</h3>
+<div class="justify-content-center py-5">
+    <div style="max-width: 800px;">
+        <h3>Редактирование поставщика @Model.Name</h3>
         <form id="registration-form" asp-controller="Supplier" asp-action="Update">
             <div class="form-group">
                 <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
@@ -32,8 +32,10 @@
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
             </div>
-            <button class="col-md-12" type="submit">Сохранить</button>
-            <a href="/suppliers">Отмена</a>
+            <div class="d-flex">
+                <button class="button px-4 mr-3" type="submit">Сохранить</button>
+                <a href="/suppliers" class="pt-2 d-inline-block">Отмена</a>
+            </div>
         </form>
     </div>
 

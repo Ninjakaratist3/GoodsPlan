@@ -7,8 +7,6 @@ namespace GoodsPlan.Core
     {
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            //serviceCollection.AddTransient<IVendorService, VendorService>();
-
         }
     }
 }

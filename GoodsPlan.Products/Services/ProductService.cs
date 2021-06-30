@@ -38,6 +38,7 @@ namespace GoodsPlan.Products.Services
                 Volume = model.Volume,
                 Price = model.Price,
                 Description = model.Description,
+                Quantity = model.Quantity,
                 Supplier = _supplierRepository.Query().Include(s => s.Products).Where(s => s.Id == model.SupplierId).FirstOrDefault(),
                 Warehouse = _warehouseRepository.Get(model.WarehouseId)
             };
@@ -54,6 +55,7 @@ namespace GoodsPlan.Products.Services
             product.Volume = model.Volume;
             product.Price = model.Price;
             product.Description = model.Description;
+            product.Quantity = model.Quantity;
             product.Supplier = _supplierRepository.Get(model.SupplierId);
             product.Warehouse = _warehouseRepository.Get(model.WarehouseId);
         }

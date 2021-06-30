@@ -4,6 +4,7 @@ using GoodsPlan.Suppliers.Areas.ViewModels.Supplier;
 using GoodsPlan.Suppliers.Models;
 using GoodsPlan.Suppliers.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace GoodsPlan.Suppliers.Areas.Controllers
@@ -12,14 +13,17 @@ namespace GoodsPlan.Suppliers.Areas.Controllers
     public class SupplierController : Controller
     {
         private readonly IRepository<Supplier> _supplierRepository;
+        private readonly IRepository<SupplierProduct> _supplierProductRepository;
         private readonly IRepository<User> _userRepository;
         private readonly ISupplierService _supplierService;
 
         public SupplierController(IRepository<Supplier> supplierRepository,
+            IRepository<SupplierProduct> supplierProductRepository,
             IRepository<User> userRepository,
             ISupplierService supplierService)
         {
             _supplierRepository = supplierRepository;
+            _supplierProductRepository = supplierProductRepository;
             _userRepository = userRepository;
             _supplierService = supplierService;
         }
@@ -44,15 +48,15 @@ namespace GoodsPlan.Suppliers.Areas.Controllers
         public IActionResult SupplierDetails(long id)
         {
             var supplier = _supplierRepository.Query()
-                .Where(p => p.Id == id)
-                .Select(p => new SupplierViewModel
+                .Include(s => s.Products)
+                .Where(s => s.Id == id)
+                .Select(s => new SupplierViewModel
                 {
-                    Name = p.Name,
-                    Phone = p.Phone,
-                    Email = p.Email,
-                    Address = p.Address,
-                    Products = p.Products,
-                    User = _userRepository.Get(p.UserId)
+                    Name = s.Name,
+                    Phone = s.Phone,
+                    Email = s.Email,
+                    Address = s.Address,
+                    Products = s.Products
                 })
                 .FirstOrDefault();
 
@@ -136,10 +140,27 @@ namespace GoodsPlan.Suppliers.Areas.Controllers
                 return BadRequest();
             }
 
+            DeleteSupplierProducts(id);
+
             _supplierRepository.Delete(id);
             _supplierRepository.SaveChanges();
 
             return Redirect("/suppliers");
+        }
+
+        private void DeleteSupplierProducts(long supplierId)
+        {
+            var supplier = _supplierRepository.Query()
+                .Include(s => s.Products)
+                .Where(s => s.Id == supplierId)
+                .FirstOrDefault();
+
+            foreach (var supplierProduct in supplier.Products)
+            {
+                _supplierProductRepository.Delete(supplierProduct.Id);
+            }
+
+            _supplierProductRepository.SaveChanges();
         }
     }
 }

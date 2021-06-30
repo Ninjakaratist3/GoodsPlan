@@ -2,35 +2,36 @@
 
 <div>
     <h3>Личный кабинет</h3>
-    <div>
-        @Model.Name
-        <br />
-        @Model.Company
+    <div class="account-info">
+        <div class="d-flex">
+            <span class="account-name">@Model.Name</span>
+            <form asp-controller="Account" asp-action="Logout">
+                <button class="button button py-1 ml-3" type="submit">Выйти</button>
+            </form>
+        </div>
+        <span class="account-company">@Model.Company</span>
     </div>
     <div class="row">
-        <div class="col-3">
-            <a href="/products">
-                <div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="section p-5 w-100" href="/products">
+                <div class="text-center">
                     Товары
                 </div>
             </a>
         </div>
-        <div class="col-3">
-            <a href="/warehouses">
-                <div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="section p-5 w-100" href="/warehouses">
+                <div class="text-center">
                     Склады
                 </div>
             </a>
         </div>
-        <div class="col-3">
-            <a href="/suppliers">
-                <div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="section p-5 w-100" href="/suppliers">
+                <div class="text-center">
                     Поставщики
                 </div>
             </a>
         </div>
     </div>
-    <form asp-controller="Account" asp-action="Logout">
-        <button type="submit">Выйти</button>
-    </form>
 </div>

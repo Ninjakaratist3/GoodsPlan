@@ -70,8 +70,7 @@ namespace GoodsPlan.Products.Areas.Controllers
                     Price = p.Price,
                     Description = p.Description,
                     Warehouse = p.Warehouse,
-                    Supplier = p.Supplier,
-                    User = _userRepository.Get(p.UserId)
+                    Supplier = p.Supplier
                 })
                 .FirstOrDefault();
 
@@ -96,7 +95,7 @@ namespace GoodsPlan.Products.Areas.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(); 
             }
 
             var product = _productService.ConvertProductFormToProduct(model);
@@ -112,6 +111,8 @@ namespace GoodsPlan.Products.Areas.Controllers
                 .Where(p => p.Email == userEmail)
                 .FirstOrDefault().Id;
 
+            AddProductToSupplier(product);
+
             _productRepository.Add(product);
             _productRepository.SaveChanges();
 
@@ -124,7 +125,8 @@ namespace GoodsPlan.Products.Areas.Controllers
             {
                 Name = product.Name,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price,
+                ProductId = product.Id
             };
 
             product.Supplier.Products.Add(supplierProduct);

@@ -1,36 +1,45 @@
 ﻿@model RegistrationForm
 
-<div>
-    <h3>Регистрация</h3>
-    <form id="registration-form" asp-controller="Account" asp-action="Registration">
-        <div class="form-group row">
-            <label asp-for="Name" class="col-md-4 col-form-label">Имя</label>
-            <div class="col-md-8">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="d-flex justify-content-center pt-5">
+    <div style="max-width: 600px;">
+        <h3 class="text-center">Регистрация</h3>
+        <form id="registration-form" asp-controller="Account" asp-action="Registration">
+            <div class="form-group row">
+                <label asp-for="Name" class="col-md-12 col-form-label">Имя</label>
+                <div class="col-md-12">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Email" class="col-md-4 col-form-label">Почта</label>
-            <div class="col-md-8">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="Company" class="col-md-12 col-form-label">Компания</label>
+                <div class="col-md-12">
+                    <input asp-for="Company" class="form-control" />
+                    <span asp-validation-for="Company" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Password" class="col-md-4 col-form-label">Пароль</label>
-            <div class="col-md-8">
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="Email" class="col-md-12 col-form-label">Почта</label>
+                <div class="col-md-12">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="ConfirmPassword" class="col-md-4 col-form-label">Подтверждение пароля</label>
-            <div class="col-md-8">
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="Password" class="col-md-12 col-form-label">Пароль</label>
+                <div class="col-md-12">
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+            <div class="form-group row">
+                <label asp-for="ConfirmPassword" class="col-md-12 col-form-label">Подтверждение пароля</label>
+                <div class="col-md-12">
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <button class="col-md-12 button" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
 </div>

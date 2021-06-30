@@ -13,6 +13,9 @@ namespace GoodsPlan.Core.Areas.ViewModels.Account
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Не указана компания")]
+        public string Company { get; set; }
+
         [Required(ErrorMessage = "Не указан пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -26,8 +29,9 @@ namespace GoodsPlan.Core.Areas.ViewModels.Account
             var passwordHasher = new PasswordHasher<User>();
 
             var user = new User();
-            user.Email = this.Email;
             user.Name = this.Name;
+            user.Company = this.Company;
+            user.Email = this.Email;
             user.Password = passwordHasher.HashPassword(user, this.Password);
 
             return user;

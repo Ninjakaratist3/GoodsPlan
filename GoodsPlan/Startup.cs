@@ -29,14 +29,17 @@ namespace GoodsPlan
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Сбор данных о модулях
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
             services.AddModules();
 
+            // Подключение к базе данных
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
 
+            // Расширение поиска представлений
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ViewLocationExpander()); });
 
@@ -44,6 +47,7 @@ namespace GoodsPlan
 
             services.AddSwaggerGen();
 
+            // Добавление авторизации
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -51,8 +55,10 @@ namespace GoodsPlan
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/login");
                 });
 
+            // Внедрение записимости класса для работы с БД
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
+            // Внедрение зависимостей из модулей
             foreach (var module in GlobalConfiguration.Modules)
             {
                 var moduleInitializerType = module.Assembly.GetTypes()

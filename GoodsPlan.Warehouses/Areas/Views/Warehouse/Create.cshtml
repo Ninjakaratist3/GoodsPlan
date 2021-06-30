@@ -1,8 +1,8 @@
 ﻿@model WarehouseForm
 
-<div class="d-flex">
-    <div style="max-width: 700px;">
-        <h3>Создание товара</h3>
+<div class="justify-content-center py-5">
+    <div style="max-width: 800px;">
+        <h3>Создание склада</h3>
         <form id="registration-form" asp-controller="Warehouse" asp-action="Create">
             <div class="form-group">
                 <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
@@ -26,14 +26,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="SizeInCubicMeters" class="col-md-12 col-form-label px-0">Почта</label>
+                <label asp-for="SizeInCubicMeters" class="col-md-12 col-form-label px-0">Размет (м<sup>3</sup>)</label>
                 <div class="col-md-12 px-0">
-                    <input asp-for="SizeInCubicMeters" required class="form-control" />
+                    <input asp-for="SizeInCubicMeters" class="form-control" />
                     <span asp-validation-for="SizeInCubicMeters" class="text-danger"></span>
                 </div>
             </div>
-            <button class="col-md-12" type="submit">Создать</button>
-            <a href="/warehouses">Отмена</a>
+            <div class="d-flex">
+                <button class="button px-4 mr-3" type="submit">Создать</button>
+                <a href="/warehouses" class="pt-2 d-inline-block">Отмена</a>
+            </div>
         </form>
     </div>
 

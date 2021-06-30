@@ -50,8 +50,7 @@ namespace GoodsPlan.Warehouses.Areas.Controllers
                     Name = p.Name,
                     Phone = p.Phone,
                     Address = p.Address,
-                    SizeInCubicMeters = p.SizeInCubicMeters,
-                    User = _userRepository.Get(p.UserId)
+                    SizeInCubicMeters = p.SizeInCubicMeters
                 })
                 .FirstOrDefault();
 

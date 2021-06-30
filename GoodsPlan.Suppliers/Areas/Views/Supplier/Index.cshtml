@@ -1,21 +1,30 @@
 ﻿@model List<SupplierViewModel> 
 
 <div>
-    <div>
-        <a href="/suppliers/create">Добавить</a>
-    </div>
-    <div>
+    <div class="d-flex justify-content-between pb-2">
         <div>
-            Товары:
+            <a href="/user"><i class="arrow left"></i></a>
+        </div>
+        <div>
+            <a class="button button-secondary" href="/suppliers/create">Добавить</a>
+        </div>
+    </div>
+
+    <div>
+        <div class="pb-2">
+            <b>Поставщики:</b>
         </div>
         @foreach (var supplier in Model)
         {
-            <div class="d-flex p-3">
+            <div class="d-flex p-2 justify-content-between section-list-item">
                 <a href="/suppliers/@supplier.Id">
                     @supplier.Name
                 </a>
-                <a href="/suppliers/edit/@supplier.Id">Редактировать</a>
-                <form method="post" asp-controller="Supplier" asp-action="Delete" asp-route-id="@supplier.Id"><button type="submit">Удалить</button></form>
+                <div class="d-flex">
+                    <a class="button py-1 d-flex justify-self-end mr-2" href="/suppliers/edit/@supplier.Id">Редактировать</a>
+                    <form method="post" asp-controller="Supplier" asp-action="Delete" asp-route-id="@supplier.Id"><button class="button button-warning py-1" type="submit">Удалить</button></form>
+                </div>
+
             </div>
         }
     </div>
